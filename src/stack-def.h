@@ -15,7 +15,7 @@
 #endif
 #define SIZE_4 0x0000 /* ---          */
 #define SIZE_5 0x0200 /* msc          */
-#define SIZE_6 0x00c0 /* timer (cir)  */
+#define SIZE_6 0x0150 /* timer (cir)  */
 #define SIZE_7 0x00c0 /* ext   (cir)  */
 #endif
 
