@@ -66,8 +66,10 @@ struct USART {
   volatile uint32_t GTPR;
 };
 
+#define USART1_BASE           (APB2PERIPH_BASE + 0x3800)
 #define USART2_BASE           (APB1PERIPH_BASE + 0x4400)
 #define USART3_BASE           (APB1PERIPH_BASE + 0x4800)
+static struct USART *const USART1 = (struct USART *)USART1_BASE;
 static struct USART *const USART2 = (struct USART *)USART2_BASE;
 static struct USART *const USART3 = (struct USART *)USART3_BASE;
 
@@ -97,3 +99,12 @@ static struct USART *const USART3 = (struct USART *)USART3_BASE;
 #define USART_CR1_RE		(1 <<  2)
 #define USART_CR1_RWU		(1 <<  1)
 #define USART_CR1_SBK		(1 <<  0)
+
+#define RCC_APB2RSTR_USART1RST	(1 << 14)
+#define RCC_APB2ENR_USART1EN	(1 << 14)
+
+#define RCC_APB1RSTR_USART2RST	(1 << 17)
+#define RCC_APB1RSTR_USART3RST	(1 << 18)
+
+#define RCC_APB1ENR_USART2EN	(1 << 17)
+#define RCC_APB1ENR_USART3EN	(1 << 18)
