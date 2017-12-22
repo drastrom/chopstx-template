@@ -45,4 +45,14 @@ Define_DMA1_ChannelN(7);
 #define DMA1_CHANNEL6_IRQ 16
 #define DMA1_CHANNEL7_IRQ 17
 
+#define TIM1_BASE (APB2PERIPH_BASE + 0x2C00)
+static struct TIM *const TIM1 = (struct TIM *)TIM1_BASE;
+#define TIM1_BRK_IRQ 24
+#define TIM1_UP_IRQ 25
+#define TIM1_TRG_COM_IRQ 26
+#define TIM1_CC_IRQ 27
+
+#define EXTI3_IRQ    9
+#define EXTI4_IRQ    10
+#define EXTI15_10_IRQ 40
 
