@@ -43,7 +43,7 @@
 #endif
 
 /* shit from gnuk.h */
-extern const uint8_t gnuk_string_serial[];
+extern const uint8_t template_string_serial[];
 
 #define LED_ONESHOT		  1
 #define LED_TWOSHOTS		  2
@@ -75,7 +75,7 @@ uint8_t *flash_addr_data_storage_start;
 static void
 device_initialize_once (void)
 {
-  const uint8_t *p = &gnuk_string_serial[ID_OFFSET];
+  const uint8_t *p = &template_string_serial[ID_OFFSET];
 
   if (p[0] == 0xff && p[1] == 0xff && p[2] == 0xff && p[3] == 0xff)
     {
@@ -221,7 +221,7 @@ main (int argc, const char *argv[])
   chopstx_conf_idle (1);
 
 #ifdef GNU_LINUX_EMULATION
-#define FLASH_IMAGE_NAME ".gnuk-flash-image"
+#define FLASH_IMAGE_NAME ".flash-image"
 
   if (argc >= 4 || (argc == 2 && !strcmp (argv[1], "--help")))
     {

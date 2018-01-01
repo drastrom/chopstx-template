@@ -186,7 +186,7 @@ if test "$target" = "GNU_LINUX"; then
   enable_hexoutput=""
   libs="-lpthread"
 else
-  ldscript="gnuk.ld"
+  ldscript="chopstx-template.ld"
   chip="stm32f103"
   emulation=""
   cross="arm-none-eabi-"
@@ -299,7 +299,7 @@ output_vendor_product_serial_strings () {
   fi
   echo '};'
   echo
-  echo '#ifdef USB_STRINGS_FOR_GNUK'
+  echo '#ifdef USB_STRINGS'
   echo "static const uint8_t ${name}revision_detail[] = {"
   echo "  ${#REVISION}*2+2,                     /* bLength */"
   echo "  STRING_DESCRIPTOR,            /* bDescriptorType */"
@@ -321,13 +321,13 @@ if !(IFS="	"
   while read -r VIDPID VERSION PRODUCT VENDOR; do
     if test "$vidpid" = "$VIDPID"; then
       output_vid_pid_version > usb-vid-pid-ver.c.inc
-      output_vendor_product_serial_strings gnuk_ >usb-strings.c.inc
+      output_vendor_product_serial_strings template_ >usb-strings.c.inc
       exit 0
     fi
-  done; exit 1) < ../GNUK_USB_DEVICE_ID
+  done; exit 1) < ../USB_DEVICE_ID
 then
   echo "Please specify valid Vendor ID and Product ID." >&2
-  echo "Check ../GNUK_USB_DEVICE_ID." >&2
+  echo "Check ../USB_DEVICE_ID." >&2
   exit 1
 fi
 
@@ -362,7 +362,7 @@ fi
 sed -e "s/@ORIGIN@/$ORIGIN/" -e "s/@FLASH_SIZE@/$FLASH_SIZE/" \
     -e "s/@MEMORY_SIZE@/$MEMORY_SIZE/" \
     -e "s/@FLASH_PAGE_SIZE@/$FLASH_PAGE_SIZE/" \
-	< gnuk.ld.in > gnuk.ld
+	< chopstx-template.ld.in > chopstx-template.ld
 
 sed -e "s/@DEBUG_DEFINE@/$DEBUG_DEFINE/" \
     -e "s/@DFU_DEFINE@/$DFU_DEFINE/" \

@@ -4,7 +4,7 @@
 src/.dep
 src/config.mk
 src/config.h
-src/gnuk.ld
+src/chopstx-template.ld
 src/board.h
 src/build/*
 src/*.inc

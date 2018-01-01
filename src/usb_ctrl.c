@@ -22,9 +22,6 @@
  *
  */
 
-/* Packet size of USB Bulk transfer for full speed */
-#define GNUK_MAX_PACKET_SIZE 64
-
 #include <stdint.h>
 #include <string.h>
 #include <chopstx.h>
@@ -93,8 +90,8 @@ vcom_port_data_setup (struct usb_dev *dev)
 uint32_t bDeviceState = USB_DEVICE_STATE_UNCONNECTED;
 
 static void
-gnuk_setup_endpoints_for_interface (struct usb_dev *dev,
-				    uint16_t interface, int stop)
+setup_endpoints_for_interface (struct usb_dev *dev,
+				uint16_t interface, int stop)
 {
 #if !defined(GNU_LINUX_EMULATION)
   (void)dev;
@@ -151,7 +148,7 @@ usb_device_reset (struct usb_dev *dev)
 
   /* Stop the interface */
   for (i = 0; i < NUM_INTERFACES; i++)
-    gnuk_setup_endpoints_for_interface (dev, i, 1);
+    setup_endpoints_for_interface (dev, i, 1);
 
   bDeviceState = USB_DEVICE_STATE_DEFAULT;
 }
@@ -318,7 +315,7 @@ usb_set_configuration (struct usb_dev *dev)
 
       usb_lld_set_configuration (dev, 1);
       for (i = 0; i < NUM_INTERFACES; i++)
-	gnuk_setup_endpoints_for_interface (dev, i, 0);
+	setup_endpoints_for_interface (dev, i, 0);
       bDeviceState = USB_DEVICE_STATE_CONFIGURED;
     }
   else if (current_conf != dev->dev_req.value)
@@ -328,7 +325,7 @@ usb_set_configuration (struct usb_dev *dev)
 
       usb_lld_set_configuration (dev, 0);
       for (i = 0; i < NUM_INTERFACES; i++)
-	gnuk_setup_endpoints_for_interface (dev, i, 1);
+	setup_endpoints_for_interface (dev, i, 1);
       bDeviceState = USB_DEVICE_STATE_ADDRESSED;
     }
 
@@ -350,7 +347,7 @@ usb_set_interface (struct usb_dev *dev)
     return -1;
   else
     {
-      gnuk_setup_endpoints_for_interface (dev, interface, 0);
+      setup_endpoints_for_interface (dev, interface, 0);
       return usb_lld_ctrl_ack (dev);
     }
 }

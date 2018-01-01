@@ -1,7 +1,7 @@
 # Makefile for Gnuk
 
 # Define project name here
-PROJECT = stm32test
+PROJECT = chopstx-template
 
 CHOPSTX = ../chopstx
 
@@ -50,7 +50,7 @@ sys.c: board.h
 build/bignum.o: OPT = -O3 -g
 
 distclean: clean
-	-rm -f gnuk.ld config.h board.h config.mk \
+	-rm -f $(LDSCRIPT) config.h board.h config.mk \
 	       usb-strings.c.inc usb-vid-pid-ver.c.inc
 
 ifneq ($(EMULATION),)
@@ -60,8 +60,8 @@ ifneq ($(EMULATION),)
 # The variables prefix, exec_prefix, libexecdir are defined in
 # config.mk.
 
-install: build/gnuk
+install: build/$(PROJECT)
 	test -d "$(DESTDIR)$(libexecdir)" || mkdir -p "$(DESTDIR)$(libexecdir)"
-	install -c build/gnuk "$(DESTDIR)$(libexecdir)"
+	install -c build/$(PROJECT) "$(DESTDIR)$(libexecdir)"
 
 endif
