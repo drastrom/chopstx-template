@@ -1,4 +1,3 @@
-#include "mcu/stm32.h"
 #include "mcu/stm32f103.h"
 
 /* why is this not in the stm32f103.h ? */

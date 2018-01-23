@@ -29,7 +29,6 @@
 
 #include "sys.h"
 #ifndef GNU_LINUX_EMULATION
-#include "mcu/stm32.h"
 #include "mcu/stm32f103.h"
 #endif
 
