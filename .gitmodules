@@ -1,3 +1,3 @@
 [submodule "chopstx"]
 	path = chopstx
-	url = https://anonscm.debian.org/git/gnuk/chopstx/chopstx.git
+	url = https://salsa.debian.org/gnuk-team/chopstx/chopstx.git
