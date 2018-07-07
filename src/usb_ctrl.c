@@ -134,8 +134,6 @@ setup_endpoints_for_interface (struct usb_dev *dev,
 void
 usb_device_reset (struct usb_dev *dev)
 {
-  int i;
-
   usb_lld_reset (dev, USB_INITIAL_FEATURE);
 
   /* Initialize Endpoint 0 */
@@ -145,10 +143,6 @@ usb_device_reset (struct usb_dev *dev)
   usb_lld_setup_endpoint (ENDP0, EP_CONTROL, 0, ENDP0_RXADDR, ENDP0_TXADDR,
 			  64);
 #endif
-
-  /* Stop the interface */
-  for (i = 0; i < NUM_INTERFACES; i++)
-    setup_endpoints_for_interface (dev, i, 1);
 
   bDeviceState = USB_DEVICE_STATE_DEFAULT;
 }
