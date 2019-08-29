@@ -53,7 +53,7 @@ struct line_coding
   uint8_t format;
   uint8_t paritytype;
   uint8_t datatype;
-};
+} __attribute__((packed));
 
 static struct line_coding line_coding = {
   115200, /* baud rate: 115200    */

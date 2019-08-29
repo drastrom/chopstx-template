@@ -12,6 +12,7 @@
 #include "usb_conf.h"
 #include "usb-cdc.h"
 
+#define W_LENGTH(x) ((x)&0xFF), (((x)>>8)&0xFF)
 
 /* USB Standard Device Descriptor */
 #if !defined(GNU_LINUX_EMULATION)
@@ -21,9 +22,9 @@ uint8_t device_desc[] = {
   18,   /* bLength */
   DEVICE_DESCRIPTOR,     /* bDescriptorType */
   0x10, 0x01,            /* bcdUSB = 1.1 */
-  0x00,   /* bDeviceClass: 0 means deferred to interface */
-  0x00,   /* bDeviceSubClass */
-  0x00,   /* bDeviceProtocol */
+  0xef,   /* bDeviceClass: Misc device class */
+  0x02,   /* bDeviceSubClass: Common class */
+  0x01,   /* bDeviceProtocol: Interface association descriptor */
   0x40,   /* bMaxPacketSize0 */
 #include "usb-vid-pid-ver.c.inc"
   1, /* Index of string descriptor describing manufacturer */
@@ -33,19 +34,19 @@ uint8_t device_desc[] = {
 };
 
 #ifdef ENABLE_VIRTUAL_COM_PORT
-#define VCOM_TOTAL_LENGTH (9+5+5+4+5+7+9+7+7)
+#define VCOM_TOTAL_LENGTH (8+9+5+5+4+5+7+9+7+7)
 #else
 #define VCOM_TOTAL_LENGTH   0
 #endif
 
-#define W_TOTAL_LENGTH (9+VCOM_TOTAL_LENGTH)
+#define TOTAL_LENGTH (9+VCOM_TOTAL_LENGTH)
 
 
 /* Configuation Descriptor */
 static const uint8_t config_desc[] = {
   9,			   /* bLength: Configuation Descriptor size */
   CONFIG_DESCRIPTOR,	   /* bDescriptorType: Configuration */
-  W_TOTAL_LENGTH, 0x00,	   /* wTotalLength:no of returned bytes */
+  W_LENGTH(TOTAL_LENGTH),  /* wTotalLength:no of returned bytes */
   NUM_INTERFACES,	   /* bNumInterfaces: */
   0x01,   /* bConfigurationValue: Configuration value */
   0x00,   /* iConfiguration: Index of string descriptor describing the configuration */
@@ -53,6 +54,16 @@ static const uint8_t config_desc[] = {
   50,	  /* MaxPower 100 mA */
 
 #ifdef ENABLE_VIRTUAL_COM_PORT
+  /* Interface Association Descriptor */
+  8,			      /* bLength: Interface Association Descriptor size */
+  0x0b,			      /* bDescriptorType: Interface Association */
+  VCOM_INTERFACE_0,	      /* bInterfaceNumber of first interface */
+  2,			      /* bInterfaceCount of contiguous interfaces */
+  0x02,			      /* bFunctionClass: Communication Interface Class */
+  0x02,			      /* bFunctionSubClass: Abstract Control Model */
+  0x01,			      /* bInterfaceProtocol: Common AT commands */
+  0x00,			      /* iFunction: */
+
   /* Interface Descriptor */
   9,			      /* bLength: Interface Descriptor size */
   INTERFACE_DESCRIPTOR,	      /* bDescriptorType: Interface */
@@ -90,7 +101,7 @@ static const uint8_t config_desc[] = {
   ENDPOINT_DESCRIPTOR,	       /* bDescriptorType: Endpoint */
   0x84,				   /* bEndpointAddress: (IN4) */
   0x03,				   /* bmAttributes: Interrupt */
-  VIRTUAL_COM_PORT_INT_SIZE, 0x00, /* wMaxPacketSize: */
+  W_LENGTH(VIRTUAL_COM_PORT_INT_SIZE), /* wMaxPacketSize: */
   0xFF,				   /* bInterval: */
 
   /*Data class interface descriptor*/
@@ -108,14 +119,14 @@ static const uint8_t config_desc[] = {
   ENDPOINT_DESCRIPTOR,	       /* bDescriptorType: Endpoint */
   0x05,				    /* bEndpointAddress: (OUT5) */
   0x02,				    /* bmAttributes: Bulk */
-  VIRTUAL_COM_PORT_DATA_SIZE, 0x00, /* wMaxPacketSize: */
+  W_LENGTH(VIRTUAL_COM_PORT_DATA_SIZE), /* wMaxPacketSize: */
   0x00,			     /* bInterval: ignore for Bulk transfer */
   /*Endpoint 3 Descriptor*/
   7,			       /* bLength: Endpoint Descriptor size */
   ENDPOINT_DESCRIPTOR,	       /* bDescriptorType: Endpoint */
   0x83,				    /* bEndpointAddress: (IN3) */
   0x02,				    /* bmAttributes: Bulk */
-  VIRTUAL_COM_PORT_DATA_SIZE, 0x00, /* wMaxPacketSize: */
+  W_LENGTH(VIRTUAL_COM_PORT_DATA_SIZE), /* wMaxPacketSize: */
   0x00,				    /* bInterval */
 #endif
 };
