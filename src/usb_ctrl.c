@@ -256,12 +256,14 @@ usb_ctrl_write_finish (struct usb_dev *dev)
     {
       if (USB_SETUP_SET (arg->type) && arg->request == USB_FSIJ_GNUK_EXEC)
 	{
+#ifdef FLASH_UPGRADE_SUPPORT
 	  /*if (*ccid_state_p != CCID_STATE_EXITED)
 	    return;*/
 
 	  bDeviceState = USB_DEVICE_STATE_UNCONNECTED;
 	  usb_lld_prepare_shutdown (); /* No further USB communication */
 	  led_blink (LED_GNUK_EXEC);	/* Notify the main.  */
+#endif
 	}
     }
 #if defined (ENABLE_VIRTUAL_COM_PORT)

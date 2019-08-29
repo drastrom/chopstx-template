@@ -57,7 +57,7 @@ usb_rx_ready (uint8_t ep_num, uint16_t len)
     {
       chopstx_mutex_lock (&stdout.m_dev);
 #ifdef GNU_LINUX_EMULATION
-      usb_lld_rx_enable (ep_num, endp5_buf, VIRTUAL_COM_PORT_DATA_SIZE);
+      usb_lld_rx_enable_buf (ep_num, endp5_buf, VIRTUAL_COM_PORT_DATA_SIZE);
 #else
       usb_lld_rx_enable (ep_num);
 #endif

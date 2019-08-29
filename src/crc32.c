@@ -116,7 +116,7 @@ rbit (uint32_t v)
 void
 crc32_rv_stop (void)
 {
-	(void);
+	(void)0;
 }
 #else
 void
