@@ -218,9 +218,8 @@ usb_thread (void *arg)
 
   (void)arg;
 
-  usb_lld_init (&dev, USB_INITIAL_FEATURE);
   chopstx_claim_irq (&interrupt, INTR_REQ_USB);
-  usb_event_handle (&dev);	/* For old SYS < 3.0 */
+  usb_lld_init (&dev, USB_INITIAL_FEATURE);
 
  reset:
   timeout = USB_TIMEOUT;
