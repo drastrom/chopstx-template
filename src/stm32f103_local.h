@@ -74,6 +74,11 @@ static struct USART *const USART3 = (struct USART *)USART3_BASE;
 #define USART_CR1_RWU		(1 <<  1)
 #define USART_CR1_SBK		(1 <<  0)
 
+#define USART_CR3_CTSE		(1 <<  9)
+#define USART_CR3_RTSE		(1 <<  8)
+#define USART_CR3_SCEN		(1 <<  5)
+#define USART_CR3_NACK		(1 <<  4)
+
 #define USART2_IRQ 38
 #define USART3_IRQ 39
 
